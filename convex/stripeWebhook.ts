@@ -7,25 +7,25 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
 export const stripeWebhook = httpAction(async (ctx, request) => {
   const sig = request.headers.get("stripe-signature");
   const body = await request.text();
-  
+
   // Validate required headers and body
   if (!sig) {
     console.error("Missing stripe-signature header");
     return new Response("Missing stripe-signature header", { status: 400 });
   }
-  
+
   if (!body) {
     console.error("Empty webhook body");
     return new Response("Empty webhook body", { status: 400 });
   }
-  
+
   // Validate required environment variables
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!webhookSecret) {
     console.error("STRIPE_WEBHOOK_SECRET not set");
     return new Response("Internal server error", { status: 500 });
   }
-  
+
   const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
   if (!stripeSecretKey) {
     console.warn("STRIPE_SECRET_KEY not set - running in development mode");
@@ -45,7 +45,7 @@ export const stripeWebhook = httpAction(async (ctx, request) => {
 
         // Get user IDs from metadata
         const clerkUserId = session.metadata?.clerkId;
-        
+
         // Log the incoming session for debugging
         console.log('Processing checkout.session.completed webhook', {
           sessionId: session.id,
@@ -56,22 +56,22 @@ export const stripeWebhook = httpAction(async (ctx, request) => {
           status: session.payment_status,
           mode: session.mode
         });
-        
+
         if (!clerkUserId) {
-          console.error('No user ID found in session metadata', { 
+          console.error('No user ID found in session metadata', {
             sessionId: session.id,
-            metadata: session.metadata 
+            metadata: session.metadata
           });
           // Don't fail the webhook for missing metadata - just log and continue
           // This prevents issues with manual Stripe testing
           return new Response('Webhook received but no user ID in metadata', { status: 200 });
         }
-        
+
         // Get the user from Convex
         const user = await ctx.runQuery(api.users.getUserByClerkId, {
           clerkId: clerkUserId,
         });
-        
+
         if (!user) {
           console.warn('User not found in Convex for payment session', { clerkUserId, sessionId: session.id });
           // Don't fail the webhook if user not found - payment was still processed by Stripe
@@ -94,7 +94,7 @@ export const stripeWebhook = httpAction(async (ctx, request) => {
             paymentMethodDetails: session.payment_method_options,
             customerEmail: session.customer_details?.email ? session.customer_details.email : undefined,
             customerName: session.customer_details?.name ? session.customer_details.name : undefined,
-            description: session.payment_intent && typeof session.payment_intent !== 'string' ? 
+            description: session.payment_intent && typeof session.payment_intent !== 'string' ?
               session.payment_intent.description || '' : '',
             receiptUrl: undefined, // Will be updated when payment_intent.succeeded event is received
             billingDetails: session.customer_details,
@@ -107,7 +107,7 @@ export const stripeWebhook = httpAction(async (ctx, request) => {
               paymentStatus: session.payment_status,
             },
           });
-          
+
           console.log('Payment record created successfully', {
             paymentId: paymentRecord,
             sessionId: session.id,
@@ -126,10 +126,10 @@ export const stripeWebhook = httpAction(async (ctx, request) => {
 
       case "payment_intent.succeeded": {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
-        
+
         // Update payment status if it exists
         console.log(`PaymentIntent ${paymentIntent.id} succeeded`);
-        
+
         // Try to update the payment record in our database
         try {
           // Update the status and additional details in one mutation
@@ -137,21 +137,21 @@ export const stripeWebhook = httpAction(async (ctx, request) => {
             stripePaymentIntentId: paymentIntent.id,
             status: 'succeeded'
           });
-          
+
           console.log(`Payment record updated for PaymentIntent ${paymentIntent.id}`);
         } catch (error) {
           console.error(`Error updating payment record for PaymentIntent ${paymentIntent.id}:`, error);
         }
-        
+
         break;
       }
 
       case "payment_intent.payment_failed": {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
-        
+
         // Update payment status if it exists
         console.log(`PaymentIntent ${paymentIntent.id} failed`);
-        
+
         // Try to update the payment record in our database
         try {
           await ctx.runMutation(api.payments.updatePaymentStatus, {
@@ -162,18 +162,19 @@ export const stripeWebhook = httpAction(async (ctx, request) => {
         } catch (error) {
           console.error(`Error updating payment record for PaymentIntent ${paymentIntent.id}:`, error);
         }
-        
+
         break;
       }
 
       default:
         console.log(`Unhandled event type: ${event.type}`);
     }
-    
+
     return new Response("Webhook received", { status: 200 });
-  } catch (err: any) {
-    console.error("❌ Webhook error:", err);
-    
+  } catch (err: unknown) {
+    const error = err as Error;
+    console.error("❌ Webhook error:", error);
+
     // Log more detailed error information
     if (err instanceof Error) {
       console.error("Error details:", {
@@ -182,34 +183,34 @@ export const stripeWebhook = httpAction(async (ctx, request) => {
         name: err.name
       });
     }
-    
+
     // Return appropriate error response based on error type
     if (err instanceof SyntaxError) {
       return new Response("Invalid JSON in webhook payload", { status: 400 });
     }
-    
+
     if (err instanceof Stripe.errors.StripeSignatureVerificationError) {
       return new Response("Invalid webhook signature", { status: 401 });
     }
-    
+
     if (err instanceof Stripe.errors.StripeConnectionError) {
       console.error("Stripe connection error - may need to retry");
       return new Response("Temporary connection error", { status: 503 });
     }
-    
+
     // Handle Stripe rate limiting
     if (err instanceof Stripe.errors.StripeRateLimitError) {
       console.error("Stripe rate limit exceeded");
       return new Response("Rate limit exceeded", { status: 429 });
     }
-    
+
     // Handle general Stripe errors
     if (err instanceof Stripe.errors.StripeError) {
       console.error("Stripe error:", err.type, err.message);
       return new Response(`Stripe error: ${err.message}`, { status: 400 });
     }
-    
-    // For any other errors, return a generic error response
-    return new Response(`Webhook processing failed: ${err.message || 'Unknown error'}`, { status: 500 });
+
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+    return new Response(`Webhook processing failed: ${errorMessage}`, { status: 500 });
   }
 });

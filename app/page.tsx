@@ -29,10 +29,10 @@ const InsightsBanner = dynamic(() => import("@/components/sections/insights-bann
 })
 
 // Disable SSR for 3D components to reduce server load
-const BhadraTigerReserveSection = dynamic(() => import("@/components/sections/bhadra-tiger-reserve").then(mod => ({ default: mod.BhadraTigerReserveSection })), {
-    loading: () => <div className="min-h-[500px] flex items-center justify-center">Loading 3D Scene...</div>,
-    ssr: false,
-})
+// const BhadraTigerReserveSection = dynamic(() => import("@/components/sections/bhadra-tiger-reserve").then(mod => ({ default: mod.BhadraTigerReserveSection })), {
+//     loading: () => <div className="min-h-[500px] flex items-center justify-center">Loading 3D Scene...</div>,
+//     ssr: false,
+// })
 
 export default function Home() {
     // Manual scroll restoration logic removed to prevent conflicts with Lenis

@@ -1,5 +1,6 @@
 import { SignUp } from "@clerk/nextjs";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function SignUpPage() {
     return (
@@ -7,10 +8,12 @@ export default function SignUpPage() {
             {/* Logo Header - Fixed at top left */}
             <div className="fixed top-0 left-0 z-50 p-6">
                 <Link href="/">
-                    <img
+                    <Image
                         src="/invisily1.png"
                         alt="Invisily"
-                        className="h-12 object-contain rounded-lg border border-gray-700 hover:border-yellow-500 transition-colors cursor-pointer"
+                        width={180}
+                        height={48}
+                        className="h-12 w-auto object-contain rounded-lg border border-gray-700 hover:border-yellow-500 transition-colors cursor-pointer"
                     />
                 </Link>
             </div>
@@ -78,10 +81,11 @@ export default function SignUpPage() {
 
             {/* Right side - Image - Fixed position to cover entire right side */}
             <div className="hidden lg:block fixed right-0 top-0 w-1/2 h-screen">
-                <img
+                <Image
                     src="/auth.png"
                     alt="Authentication"
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
                 />
             </div>
         </div>

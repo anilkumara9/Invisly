@@ -3,10 +3,11 @@
 import Image from "next/image";
 import { Check, Lock } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
-import { PaymentWithAuthModal } from "@/components/ui/payment-with-auth-modal";
-import { toast } from "sonner";
-import { useState, useEffect } from "react";
 
+import { toast } from "sonner";
+import React from "react";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface TimeLeft {
   hours: number;
   minutes: number;

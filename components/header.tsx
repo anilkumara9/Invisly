@@ -3,9 +3,6 @@
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
-import { LegalDialog } from './legal-dialogs';
-import { PrivacyContent } from './privacy-content';
-import { TermsContent } from './terms-content';
 import { UserButton, useUser } from '@clerk/nextjs';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Menu, X, ChevronDown } from "lucide-react";

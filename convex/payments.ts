@@ -25,19 +25,19 @@ export const createPayment = mutation({
     if (args.amount <= 0) {
       throw new ConvexError("Payment amount must be greater than zero");
     }
-    
+
     if (!args.currency) {
       throw new ConvexError("Currency is required");
     }
-    
+
     if (!args.stripePaymentIntentId) {
       throw new ConvexError("Stripe Payment Intent ID is required");
     }
-    
+
     if (!args.stripeCustomerId) {
       throw new ConvexError("Stripe Customer ID is required");
     }
-    
+
     try {
       const paymentId = await ctx.db.insert("payments", {
         userId: args.userId,
@@ -62,9 +62,10 @@ export const createPayment = mutation({
 
       console.log(`Created payment record with ID: ${paymentId}`);
       return paymentId;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error creating payment record:", error);
-      throw new ConvexError("Failed to create payment record: " + (error.message || 'Unknown error'));
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      throw new ConvexError("Failed to create payment record: " + errorMessage);
     }
   },
 });
@@ -127,34 +128,35 @@ export const updatePaymentStatus = mutation({
     if (!args.stripePaymentIntentId) {
       throw new ConvexError("Stripe Payment Intent ID is required");
     }
-    
+
     if (!args.status) {
       throw new ConvexError("Status is required");
     }
-    
+
     try {
       // Find the payment by stripePaymentIntentId
       const payment = await ctx.db
         .query("payments")
         .withIndex("by_stripe_payment_intent", q => q.eq("stripePaymentIntentId", args.stripePaymentIntentId))
         .unique();
-      
+
       if (!payment) {
         console.warn(`Payment not found for PaymentIntent ID: ${args.stripePaymentIntentId}`);
         return null; // Return null instead of throwing error to prevent webhook retries
       }
-      
+
       // Update the payment status
       await ctx.db.patch(payment._id, {
         status: args.status.toLowerCase(), // Normalize status to lowercase
         updatedAt: Date.now(),
       });
-      
+
       console.log(`Updated payment ${payment._id} status to ${args.status}`);
       return payment._id;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error updating payment status:", error);
-      throw new ConvexError("Failed to update payment status: " + (error.message || 'Unknown error'));
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      throw new ConvexError("Failed to update payment status: " + errorMessage);
     }
   },
 });

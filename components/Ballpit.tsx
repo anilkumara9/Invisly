@@ -46,6 +46,7 @@ interface SizeData {
 
 class X {
   #config: XConfig;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   #postprocessing: any;
   #resizeObserver?: ResizeObserver;
   #intersectionObserver?: IntersectionObserver;
@@ -75,9 +76,9 @@ class X {
   };
 
   render: () => void = this.#render.bind(this);
-  onBeforeRender: (state: { elapsed: number; delta: number }) => void = () => {};
-  onAfterRender: (state: { elapsed: number; delta: number }) => void = () => {};
-  onAfterResize: (size: SizeData) => void = () => {};
+  onBeforeRender: (state: { elapsed: number; delta: number }) => void = () => { };
+  onAfterRender: (state: { elapsed: number; delta: number }) => void = () => { };
+  onAfterResize: (size: SizeData) => void = () => { };
   isDisposed: boolean = false;
 
   constructor(config: XConfig) {
@@ -212,6 +213,7 @@ class X {
   get postprocessing() {
     return this.#postprocessing;
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   set postprocessing(value: any) {
     this.#postprocessing = value;
     this.render = value.render.bind(value);
@@ -430,9 +432,8 @@ class Y extends MeshPhysicalMaterial {
     thicknessScale: { value: 10 }
   };
 
-  constructor(params: any) {
+  constructor(params: Record<string, any>) {
     super(params);
-    // @ts-ignore
     this.defines = { USE_UV: '' };
     this.onBeforeCompile = shader => {
       Object.assign(shader.uniforms, this.uniforms);
@@ -472,7 +473,7 @@ class Y extends MeshPhysicalMaterial {
       if (this.onBeforeCompile2) this.onBeforeCompile2(shader);
     };
   }
-  onBeforeCompile2?: (shader: any) => void;
+  onBeforeCompile2?: (shader: { uniforms: Record<string, any>; fragmentShader: string }) => void;
 }
 
 const XConfig = {
@@ -526,10 +527,10 @@ function createPointerData(options: Partial<PointerData> & { domElement: HTMLEle
     nPosition: new Vector2(),
     hover: false,
     touching: false,
-    onEnter: () => {},
-    onMove: () => {},
-    onClick: () => {},
-    onLeave: () => {},
+    onEnter: () => { },
+    onMove: () => { },
+    onClick: () => { },
+    onLeave: () => { },
     ...options
   };
   if (!pointerMap.has(options.domElement)) {
@@ -773,7 +774,7 @@ interface CreateBallpitReturn {
   dispose: () => void;
 }
 
-function createBallpit(canvas: HTMLCanvasElement, config: any = {}): CreateBallpitReturn {
+function createBallpit(canvas: HTMLCanvasElement, config: Record<string, any> = {}): CreateBallpitReturn {
   const threeInstance = new X({
     canvas,
     size: 'parent',

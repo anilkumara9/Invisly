@@ -6,7 +6,7 @@ import { api } from "@/convex/_generated/api";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
+import { SignInButton } from "@clerk/nextjs";
 
 interface PaymentWithAuthModalProps {
   priceId: string;
@@ -18,18 +18,19 @@ interface PaymentWithAuthModalProps {
   onPaymentError?: (error: string) => void;
 }
 
-export function PaymentWithAuthModal({ 
-  priceId, 
-  children, 
-  className, 
+export function PaymentWithAuthModal({
+  priceId,
+  children,
+  className,
   disabled,
   onPaymentStart,
   onPaymentError,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onPaymentSuccess
 }: PaymentWithAuthModalProps) {
   const { isLoaded, isSignedIn, user } = useUser();
   const [isLoading, setIsLoading] = useState(false);
-  // @ts-ignore - temporary fix for type issues
+  // @ts-expect-error: Convex action signature mismatch with current auto-generated types
   const createCheckoutSession = useAction(api.stripe.createCheckoutSession);
 
   // Show loading state while authentication is loading
@@ -56,7 +57,7 @@ export function PaymentWithAuthModal({
       onPaymentStart?.();
 
       const result = await createCheckoutSession({ priceId, quantity: 1, userId: user?.id });
-      
+
       if (result?.url) {
         // Redirect to Stripe Checkout
         window.location.href = result.url;

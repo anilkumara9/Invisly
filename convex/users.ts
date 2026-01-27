@@ -15,7 +15,7 @@ export const createUser = mutation({
     if (!args.email || !args.email.includes('@')) {
       throw new Error("Invalid email format");
     }
-    
+
     try {
       const existingUser = await ctx.db
         .query("users")
@@ -36,12 +36,13 @@ export const createUser = mutation({
         createdAt: Date.now(),
         updatedAt: Date.now(),
       });
-      
+
       console.log(`Created new user with ID: ${userId}`);
       return userId;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error creating user:", error);
-      throw new Error(`Failed to create user: ${error.message || 'Unknown error'}`);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      throw new Error(`Failed to create user: ${errorMessage}`);
     }
   },
 });
