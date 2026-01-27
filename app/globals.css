@@ -1,0 +1,745 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Lobster&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Oswald:wght@200..700&family=Savate:ital,wght@0,200..900;1,200..900&family=WDXL+Lubrifont+TC&display=swap');
+
+/* Custom variant for dark mode */
+@custom-variant dark (&:is(.dark *));
+
+@font-face {
+  font-family: "Sentient";
+  src: url("/Sentient-Extralight.woff") format("woff");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Sentient";
+  src: url("/Sentient-LightItalic.woff") format("woff");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* WDXL Lubrifont TC */
+.wdxl-lubrifont-tc-regular {
+  font-family: "WDXL Lubrifont TC", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Abril Fatface */
+.abril-fatface-regular {
+  font-family: "Abril Fatface", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Savate */
+.savate-regular {
+  font-family: "Savate", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.savate-medium {
+  font-family: "Savate", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.savate-bold {
+  font-family: "Savate", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Lobster */
+.lobster-regular {
+  font-family: "Lobster", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Oswald */
+.oswald-light {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.oswald-regular {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.oswald-medium {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.oswald-bold {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Lobster Two */
+.lobster-two-regular {
+  font-family: "Lobster Two", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.lobster-two-bold {
+  font-family: "Lobster Two", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.lobster-two-regular-italic {
+  font-family: "Lobster Two", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.lobster-two-bold-italic {
+  font-family: "Lobster Two", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+:root {
+  --background: #050505;
+  --foreground: #ffffff;
+  --primary: #ffc700;
+  --primary-foreground: #000000;
+  --primary-dark: #e6b300;
+  --primary-light: #ffd740;
+  --border: #2a2a2a;
+  --card: #0a0a0a;
+  --card-foreground: #ffffff;
+  --popover: #0a0a0a;
+  --popover-foreground: #ffffff;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #ffffff;
+  --muted: #1a1a1a;
+  --muted-foreground: #a1a1aa;
+  --accent: #2a2a2a;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --input: #2a2a2a;
+  --ring: #ffc700;
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.75rem;
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #ffc700;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #2a2a2a;
+  --sidebar-ring: #ffc700;
+  --gradient-start: #0f0f0f;
+  --gradient-end: #1a1a1a;
+  --glass-bg: rgba(10, 10, 10, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+  --premium-gold: linear-gradient(135deg, #ffc700, #ffdb57, #ffc700);
+  --premium-shadow: 0 0 30px rgba(255, 199, 0, 0.3);
+  --premium-shadow-hover: 0 0 40px rgba(255, 199, 0, 0.5);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-light: var(--primary-light);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-gradient-start: var(--gradient-start);
+  --color-gradient-end: var(--gradient-end);
+  --color-glass-bg: var(--glass-bg);
+  --color-glass-border: var(--glass-border);
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+
+    to {
+      transform: translateY(-50%);
+    }
+  }
+
+  --animate-line-shadow: line-shadow 15s linear infinite;
+
+  @keyframes line-shadow {
+    0% {
+      background-position: 0 0;
+    }
+
+    100% {
+      background-position: 100% -100%;
+    }
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0% {
+      box-shadow: 0 0 5px rgba(255, 199, 0, 0.2);
+    }
+
+    50% {
+      box-shadow: 0 0 20px rgba(255, 199, 0, 0.4);
+    }
+
+    100% {
+      box-shadow: 0 0 5px rgba(255, 199, 0, 0.2);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+
+    100% {
+      background-position: 200% 0;
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  ::selection {
+    @apply bg-primary/30 text-primary-foreground;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    /* Improve scrolling performance */
+    -webkit-overflow-scrolling: touch;
+    height: auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    /* Additional performance optimizations */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    /* Lenis requires these for proper smooth scrolling */
+    /* Performance optimizations */
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  /* Optimize WebGL container for better scrolling */
+  #webgl {
+    top: 0;
+    left: 0;
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    z-index: 0;
+    pointer-events: none;
+    /* Ensure the WebGL container doesn't block the background */
+    background: transparent !important;
+    /* Make sure it doesn't create a new stacking context */
+    transform: translateZ(0);
+  }
+
+  #webgl canvas {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* Make canvas background transparent to show through to the background image */
+    background: transparent !important;
+  }
+
+
+  /* Ensure fonts are applied globally */
+  /* Professional typography */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Sentient', sans-serif;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  p {
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+  }
+
+  body {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Font loading indicators for debugging */
+  .font-test {
+    border: 2px dashed #ffc700;
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+
+  /* Lenis specific optimizations for scrollable elements */
+  [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  /* Prevent scroll jank on heavy rendering elements */
+  .smooth-scroll-optimized {
+    contain: strict;
+    content-visibility: auto;
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  /* Premium Glassmorphism Utilities */
+  .glass-panel {
+    @apply bg-glass-bg backdrop-blur-2xl border border-glass-border;
+    box-shadow: var(--glass-shadow);
+  }
+
+  .glass-card {
+    @apply bg-glass-bg backdrop-blur-xl border border-glass-border shadow-lg transition-all duration-500;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .glass-card:hover {
+    @apply border-primary/50;
+    box-shadow: 0 12px 40px 0 rgba(255, 199, 0, 0.25);
+    transform: translateY(-5px);
+  }
+
+  .glass-button {
+    @apply bg-glass-bg hover:bg-white/10 backdrop-blur-lg border border-glass-border transition-all duration-300;
+  }
+
+  .glass-button:hover {
+    box-shadow: var(--premium-shadow);
+    transform: translateY(-2px);
+  }
+
+  .glass-button:active {
+    transform: translateY(0);
+  }
+
+  /* Premium Gradient Utilities */
+  .premium-gradient {
+    background: var(--premium-gold);
+    background-size: 200% auto;
+    color: #000 !important;
+    font-weight: 700;
+  }
+
+  .premium-gradient:hover {
+    background-position: 100% center;
+  }
+
+  /* Floating Animation */
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Glow Effect */
+  .glow-effect {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* Shimmer Effect */
+  .shimmer-effect {
+    background: linear-gradient(to right, #ffffff10, #ffffff30, #ffffff10);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite linear;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-white/80 to-white/50;
+  }
+
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#ffc700] via-[#ffdb57] to-[#ffc700];
+  }
+
+  .text-glow {
+    text-shadow: 0 0 20px rgba(255, 199, 0, 0.5);
+  }
+
+
+  /* Hide scrollbars while keeping functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera*/
+  }
+
+  /* Premium Scrollbar Styles */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--primary), var(--primary-dark));
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--primary-light), var(--primary));
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) transparent;
+  }
+
+  /* Smooth Scroll Behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Responsive Utility Classes */
+  .responsive-margin {
+    @apply mx-4 sm:mx-6 md:mx-8 lg:mx-12;
+  }
+
+  .responsive-gap {
+    @apply gap-4 sm:gap-6 md:gap-8 lg:gap-12;
+  }
+
+  .responsive-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12;
+  }
+
+  /* Mobile-specific optimizations */
+  @media (max-width: 768px) {
+    .mobile-hidden {
+      display: none !important;
+    }
+
+    .mobile-stack {
+      flex-direction: column !important;
+    }
+
+    .mobile-center {
+      text-align: center !important;
+    }
+
+    .mobile-full-width {
+      width: 100% !important;
+    }
+  }
+
+  /* Desktop-specific optimizations */
+  @media (min-width: 1024px) {
+    .desktop-only {
+      display: block !important;
+    }
+
+    .desktop-hidden {
+      display: none !important;
+    }
+  }
+
+  /* Hide Clerk branding elements - targeted approach */
+  .clerk-branding.cl-component,
+  .cl-logo.cl-component,
+  .clerk-powered-by.cl-component,
+  [data-clerk-branding="true"] {
+    display: none !important;
+  }
+
+  /* Ensure proper contrast for Clerk components in dark mode */
+  .cl-component {
+    --clerk-color-text: #ffffff;
+    --clerk-color-text-secondary: #cccccc;
+    --clerk-color-text-on-primary-background: #000000;
+    --clerk-color-text-on-inverted: #000000;
+    --clerk-color-input-text: #ffffff;
+    --clerk-color-focus: #ffc700;
+  }
+
+  /* Improve clarity of Clerk UserButton popover */
+  .cl-userButtonPopoverMain.cl-cardBox {
+    backdrop-filter: none !important;
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    border: 1px solid rgba(66, 66, 66, 0.5) !important;
+  }
+
+  .cl-userButtonPopoverMain .cl-userPreviewTextContainer,
+  .cl-userButtonPopoverMain .cl-userButtonPopoverActionButton,
+  .cl-userButtonPopoverMain .cl-userButtonPopoverFooter {
+    color: #ffffff !important;
+    text-shadow: none !important;
+  }
+
+  .cl-userButtonPopoverMain .cl-userButtonPopoverActionButton:hover {
+    background-color: rgba(255, 199, 0, 0.1) !important;
+  }
+
+  /* Modal scroll management */
+  .modal-open {
+    overflow: hidden;
+  }
+
+  /* Ensure modals have proper z-index */
+  .cl-modal,
+  .cl-modalWrapper,
+  [role="dialog"] {
+    z-index: 9999 !important;
+  }
+
+  /* Prevent interaction with background when modal is open */
+  .modal-open body>*:not(.cl-modal):not(.cl-modalWrapper):not([role="dialog"]) {
+    pointer-events: none !important;
+  }
+
+  .modal-open .cl-modal,
+  .modal-open .cl-modalWrapper,
+  .modal-open [role="dialog"] {
+    pointer-events: auto !important;
+  }
+}
+
+/* Impressive animations */
+@keyframes slow-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-slow {
+
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.95);
+  }
+
+  50% {
+    opacity: 0.25;
+    transform: scale(1.05);
+  }
+}
+
+.slow-spin {
+  animation: slow-spin 30s linear infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+/* Glass effect animations */
+@keyframes moveBackground {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+/* Custom Animations */
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+/* Hide header and footer on authentication pages */
+body.auth-page [class*="header"],
+body.auth-page [class*="Header"],
+body.auth-page header,
+body.auth-page [class*="footer"],
+body.auth-page [class*="Footer"],
+body.auth-page footer {
+  display: none !important;
+}
