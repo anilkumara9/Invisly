@@ -2,6 +2,12 @@ import Stripe from 'stripe';
 import stripe from '@/lib/stripe';
 
 export async function POST(req: Request) {
+    // Check if Stripe is configured at runtime
+    if (!stripe) {
+        console.error('Stripe is not configured');
+        return new Response('Stripe configuration error', { status: 500 });
+    }
+
     const body = await req.text();
     const signature = req.headers.get('Stripe-Signature') as string;
 
