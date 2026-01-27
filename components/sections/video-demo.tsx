@@ -108,7 +108,7 @@ export function VideoDemo() {
                         <div className="absolute top-0 left-0 w-full h-full overflow-hidden" style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}>
                             <video
                                 className="absolute top-0 left-0 w-full h-full object-cover"
-                                src="/screen-recording-brocode.mp4"
+                                src="/anilkumar.mp4"
                                 autoPlay
                                 loop
                                 muted

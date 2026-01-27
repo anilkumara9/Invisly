@@ -25,7 +25,7 @@ ascii_price_id.txt
 price_id_line.txt
 
 # large assets
-*.mp4
+# managed by git-lfs
 
 # vercel
 .vercel
