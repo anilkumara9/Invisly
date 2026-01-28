@@ -29,7 +29,9 @@ export function PaymentButton({
 }: PaymentButtonProps) {
   const { isLoaded, isSignedIn, user } = useUser();
   const [isLoading, setIsLoading] = useState(false);
-  const createCheckoutSession = useAction(api.stripe.createCheckoutSession);
+  
+  // Use type assertion at the api level to handle potential type mismatch during development
+  const createCheckoutSession = useAction((api.stripe as any).createCheckoutSession);
 
   // Show loading state while authentication is loading
   useEffect(() => {
