@@ -47,99 +47,103 @@ export default function RootLayout({
 }>) {
   const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
   
-  if (!clerkPublishableKey) {
-    console.error('Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY environment variable');
+  if (clerkPublishableKey) {
     return (
-      <html lang="en">
-        <body className={`${geistMono.variable} ${calsans.variable} antialiased`}>
-          <div className="flex flex-col items-center justify-center min-h-screen bg-background px-4">
-            <div className="text-center space-y-6">
-              <h1 className="text-4xl font-bold">Configuration Error</h1>
-              <p className="text-muted-foreground">
-                Missing Clerk configuration. Please check environment variables.
-              </p>
-            </div>
-          </div>
-          {children}
-        </body>
-      </html>
+      <ClerkProvider
+        publishableKey={clerkPublishableKey}
+        signInUrl="/sign-in"
+        signUpUrl="/sign-up"
+        afterSignInUrl="/"
+        afterSignUpUrl="/"
+        appearance={{
+          layout: {
+            logoImageUrl: '/invisily1.png',
+            unsafe_disableDevelopmentModeWarnings: true,
+          },
+          variables: {
+            colorBackground: '#000000',
+            colorText: '#ffffff',
+            colorTextSecondary: '#cccccc',
+            colorPrimary: '#ffc700',
+            colorTextOnPrimaryBackground: '#000000',
+            colorInputBackground: '#111111',
+            colorInputText: '#ffffff',
+            colorNeutral: '#333333',
+            colorShimmer: 'rgba(255,255,255,0.2)',
+            fontWeight: {
+              normal: 400,
+              medium: 500,
+              bold: 700,
+            },
+            fontSize: {
+              xs: '0.75rem',
+              sm: '0.875rem',
+              md: '1rem',
+              lg: '1.125rem',
+              xl: '1.25rem',
+            },
+          },
+          elements: {
+            footer: 'hidden',
+            footerAction: 'hidden',
+            footerAction__help: 'hidden',
+            logoImage: {
+              width: '60px',
+              height: 'auto',
+              borderRadius: '8px'
+            },
+            logo: 'hidden',
+            clerkLogo: 'hidden',
+            branding: 'hidden',
+            socialButtons: {
+              boxShadow: 'none',
+              border: 'none',
+            },
+            socialButtonsIconButton: {
+              filter: 'none',
+              opacity: '1',
+              border: 'none',
+            },
+            socialButtonsBlockButton: {
+              filter: 'none',
+              opacity: '1',
+              color: '#ffffff',
+              backgroundColor: '#111111',
+              border: 'none',
+            },
+            socialButtonsBlockButtonText: {
+              color: '#ffffff',
+              fontWeight: '500',
+            },
+            socialButtonsProviderIcon: {
+              filter: 'none',
+              opacity: '1',
+            },
+          },
+        }}
+      >
+        <html lang="en">
+          <body
+            className={`${geistMono.variable} ${calsans.variable} antialiased`}
+            suppressHydrationWarning
+          >
+            <ConvexClientProvider>
+              <SmoothScroll>
+                <AuthLayoutWrapper
+                  header={<Header />}
+                  footer={<Footer />}
+                >
+                  {children}
+                </AuthLayoutWrapper>
+              </SmoothScroll>
+            </ConvexClientProvider>
+          </body>
+        </html>
+      </ClerkProvider>
     );
-  }
-
-  return (
-    <ClerkProvider
-      publishableKey={clerkPublishableKey}
-      signInUrl="/sign-in"
-      signUpUrl="/sign-up"
-      afterSignInUrl="/"
-      afterSignUpUrl="/"
-      appearance={{
-        layout: {
-          logoImageUrl: '/invisily1.png',
-          unsafe_disableDevelopmentModeWarnings: true,
-        },
-        variables: {
-          colorBackground: '#000000',
-          colorText: '#ffffff',
-          colorTextSecondary: '#cccccc',
-          colorPrimary: '#ffc700',
-          colorTextOnPrimaryBackground: '#000000',
-          colorInputBackground: '#111111',
-          colorInputText: '#ffffff',
-          colorNeutral: '#333333',
-          colorShimmer: 'rgba(255,255,255,0.2)',
-          fontWeight: {
-            normal: 400,
-            medium: 500,
-            bold: 700,
-          },
-          fontSize: {
-            xs: '0.75rem',
-            sm: '0.875rem',
-            md: '1rem',
-            lg: '1.125rem',
-            xl: '1.25rem',
-          },
-        },
-        elements: {
-          footer: 'hidden',
-          footerAction: 'hidden',
-          footerAction__help: 'hidden',
-          logoImage: {
-            width: '60px',
-            height: 'auto',
-            borderRadius: '8px'
-          },
-          logo: 'hidden',
-          clerkLogo: 'hidden',
-          branding: 'hidden',
-          socialButtons: {
-            boxShadow: 'none',
-            border: 'none',
-          },
-          socialButtonsIconButton: {
-            filter: 'none',
-            opacity: '1',
-            border: 'none',
-          },
-          socialButtonsBlockButton: {
-            filter: 'none',
-            opacity: '1',
-            color: '#ffffff',
-            backgroundColor: '#111111',
-            border: 'none',
-          },
-          socialButtonsBlockButtonText: {
-            color: '#ffffff',
-            fontWeight: '500',
-          },
-          socialButtonsProviderIcon: {
-            filter: 'none',
-            opacity: '1',
-          },
-        },
-      }}
-    >
+  } else {
+    // Render the app without Clerk if the key is not available
+    return (
       <html lang="en">
         <body
           className={`${geistMono.variable} ${calsans.variable} antialiased`}
@@ -157,6 +161,6 @@ export default function RootLayout({
           </ConvexClientProvider>
         </body>
       </html>
-    </ClerkProvider>
-  );
+    );
+  }
 }
