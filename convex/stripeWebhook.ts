@@ -2,8 +2,6 @@ import { httpAction } from "./_generated/server";
 import Stripe from "stripe";
 import { api } from "./_generated/api";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
-
 export const stripeWebhook = httpAction(async (ctx, request) => {
   const sig = request.headers.get("stripe-signature");
   const body = await request.text();
@@ -28,8 +26,13 @@ export const stripeWebhook = httpAction(async (ctx, request) => {
 
   const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
   if (!stripeSecretKey) {
-    console.warn("STRIPE_SECRET_KEY not set - running in development mode");
+    console.warn("STRIPE_SECRET_KEY not set - Stripe integration will not work");
+    return new Response("Internal server error: Stripe configuration missing", { status: 500 });
   }
+
+  const stripe = new Stripe(stripeSecretKey, {
+    apiVersion: "2025-10-29.clover",
+  });
 
   try {
     const event = stripe.webhooks.constructEvent(

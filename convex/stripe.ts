@@ -1,6 +1,6 @@
 import { ConvexError, v } from "convex/values";
 import { action, mutation } from "./_generated/server"; // Import both action and mutation
-import stripe from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { api } from "./_generated/api";
 
 // Mutation to update user with Stripe customer ID
@@ -28,6 +28,9 @@ export const createCheckoutSession = action({ // Changed from mutation to action
   },
   // @ts-ignore
   handler: async (ctx, args) => {
+    // Initialize Stripe lazily
+    const stripe = getStripe();
+
     // Debug logging to see what's happening with authentication
     console.log("Checking user authentication...");
 
