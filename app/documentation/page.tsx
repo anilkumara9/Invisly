@@ -252,7 +252,7 @@ export default function DocumentationPage() {
                         </div>
                         <h3 className="text-xl font-semibold mb-3 text-card-foreground">Download and Install</h3>
                         <p className="text-muted-foreground">
-                          Download the latest version of Invisily from your dashboard and follow the installation instructions for your operating system.
+                          Download the latest version of Invisily and follow the installation instructions for your operating system.
                         </p>
                       </div>
 
@@ -1049,7 +1049,7 @@ export default function DocumentationPage() {
                   ← Back to Home
                 </Link>
                 <Link
-                  href="/dashboard"
+                  href="/"
                   className="inline-flex items-center px-5 py-3 text-base font-medium bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-primary-foreground rounded-lg transition-all shadow-lg"
                 >
                   Go to Dashboard →

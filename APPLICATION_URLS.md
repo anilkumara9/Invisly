@@ -28,7 +28,7 @@ CONVEX_DEPLOYMENT_URL=https://sleek-reindeer-994.convex.cloud
 1. Replace `https://your-website.com` with your actual domain
 2. Replace `your-project-xxxxx` with your actual Clerk project identifier
 3. Replace `your-project-XXXX` with your actual Convex project identifier
-4. Ensure these URLs are registered in your OAuth provider dashboard
+4. Ensure these URLs are registered in your OAuth provider settings
 5. For local development, you can use:
    ```
    SUCCESS_URL=http://localhost:3000/success

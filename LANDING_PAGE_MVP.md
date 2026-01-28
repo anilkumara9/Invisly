@@ -198,7 +198,7 @@ This document outlines the Minimum Viable Product (MVP) for the Invisly landing 
 ## Future Enhancements
 
 ### Phase 2 Features
-- Advanced analytics dashboard
+- Analytics and reporting
 - Community features and forums
 - Integration with popular IDEs
 - Mobile application
