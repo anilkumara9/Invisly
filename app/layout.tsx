@@ -45,9 +45,30 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+  
+  if (!clerkPublishableKey) {
+    console.error('Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY environment variable');
+    return (
+      <html lang="en">
+        <body className={`${geistMono.variable} ${calsans.variable} antialiased`}>
+          <div className="flex flex-col items-center justify-center min-h-screen bg-background px-4">
+            <div className="text-center space-y-6">
+              <h1 className="text-4xl font-bold">Configuration Error</h1>
+              <p className="text-muted-foreground">
+                Missing Clerk configuration. Please check environment variables.
+              </p>
+            </div>
+          </div>
+          {children}
+        </body>
+      </html>
+    );
+  }
+
   return (
     <ClerkProvider
-      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+      publishableKey={clerkPublishableKey}
       signInUrl="/sign-in"
       signUpUrl="/sign-up"
       afterSignInUrl="/"
