@@ -3,7 +3,7 @@ import { httpAction } from "./_generated/server";
 import { Webhook } from "svix";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { api } from "./_generated/api";
-import stripe from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { stripeWebhook } from "./stripeWebhook";
 
 const http = httpRouter();
@@ -73,6 +73,7 @@ const clerkwebhook = httpAction(async (ctx, req) => {
                 if (process.env.NODE_ENV === 'production' || process.env.STRIPE_SECRET_KEY) {
                     try {
                         // Create a Stripe customer
+                        const stripe = getStripe();
                         const customer = await stripe.customers.create({
                             email,
                             name,

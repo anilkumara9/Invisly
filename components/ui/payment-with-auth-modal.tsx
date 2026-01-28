@@ -30,7 +30,6 @@ export function PaymentWithAuthModal({
 }: PaymentWithAuthModalProps) {
   const { isLoaded, isSignedIn, user } = useUser();
   const [isLoading, setIsLoading] = useState(false);
-  // @ts-expect-error: Convex action signature mismatch with current auto-generated types
   const createCheckoutSession = useAction(api.stripe.createCheckoutSession);
 
   // Show loading state while authentication is loading
