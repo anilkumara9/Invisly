@@ -29,11 +29,11 @@ export const InsightsBanner = () => {
                 <div className="absolute inset-0 bg-black/30 rounded-2xl z-5"></div>
                 <div className="relative z-10">
                   <Image
-                    src="/assets/new photo.jpg"
+                    src="/assets/newphoto.jpeg"
                     alt="Anil Kumar Meda - Professional Developer"
-                    width={600}
-                    height={400}
-                    className="h-auto w-full max-w-[400px] object-contain mx-auto rounded-2xl border-2 border-yellow-500/30 shadow-2xl"
+                    width={700}
+                    height={500}
+                    className="h-auto w-full max-w-[550px] object-contain mx-auto rounded-2xl border-2 border-yellow-500/30 shadow-2xl"
                   />
                 </div>
               </div>
@@ -43,8 +43,13 @@ export const InsightsBanner = () => {
                 <h2 className="text-white text-3xl md:text-4xl font-bold leading-tight">
                   Featured Developer
                 </h2>
-                <blockquote className="text-white text-2xl md:text-3xl font-medium italic border-l-4 border-yellow-500 pl-6 py-4">
-                  "I am open to work and eager to contribute my skills to innovative projects. If you're impressed by my work, let's connect at anilkumarmeda6@gmail.com"
+                <blockquote className="text-white text-xl md:text-2xl font-medium italic border-l-4 border-yellow-500 pl-6 py-4 leading-relaxed">
+                  <p className="mb-3">
+                    &quot;Crafting high-performance digital experiences with precision. I am open to new opportunities and ready to contribute to your team's success.&quot;
+                  </p>
+                  <p className="not-italic text-lg md:text-xl text-white/80">
+                    Let's build something extraordinary—connect at <span className="block mt-1"><a href="mailto:anilkumarmeda6@gmail.com" className="text-yellow-500 hover:underline decoration-yellow-500/50 font-bold">anilkumarmeda6@gmail.com</a></span>
+                  </p>
                 </blockquote>
                 <div className="pt-4">
                   <div className="flex items-center space-x-4">
