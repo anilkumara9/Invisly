@@ -44,7 +44,8 @@ export default defineSchema({
     code: v.string(),            // The random secure code
     userId: v.string(),          // Clerk User ID
     expiresAt: v.number(),       // Timestamp (e.g., now + 2 mins)
-  }).index("by_code", ["code"]),
+  }).index("by_code", ["code"])
+    .index("by_expires_at", ["expiresAt"]),
 
   // Long-lived sessions for desktop apps
   desktopSessions: defineTable({

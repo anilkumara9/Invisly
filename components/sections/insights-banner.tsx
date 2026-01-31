@@ -40,7 +40,7 @@ export const InsightsBanner = () => {
             </div>
             <div className="md:w-1/3 md:order-1 p-8 md:p-12">
               <div className="space-y-6">
-                <h2 className="text-white text-3xl md:text-4xl font-bold leading-tight">
+                <h2 className="text-white text-3xl md:text-4xl font-bold leading-tight abril-fatface-regular">
                   Featured Developer
                 </h2>
                 <blockquote className="text-white text-xl md:text-2xl font-medium italic border-l-4 border-yellow-500 pl-6 py-4 leading-relaxed">

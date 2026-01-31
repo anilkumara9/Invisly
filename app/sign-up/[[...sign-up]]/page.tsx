@@ -1,10 +1,18 @@
-import { SignUp } from "@clerk/nextjs";
+"use client";
+
+import { SignUp, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function SignUpPage() {
+    const { isLoaded } = useUser();
+
+    if (!isLoaded) {
+        return null;
+    }
+
     return (
-        <div className="min-h-screen bg-black">
+        <div className="min-h-screen" style={{ background: 'linear-gradient(to right, rgb(8, 8, 7) 50%, black 50%)' }}>
             {/* Logo Header - Fixed at top left */}
             <div className="fixed top-0 left-0 z-50 p-6">
                 <Link href="/">
@@ -24,11 +32,11 @@ export default function SignUpPage() {
                     {/* Left side - Authentication Form */}
                     <div className="w-full lg:w-1/2 flex justify-start">
                         <div className="flex flex-col items-center">
-                            <div className="bg-transparent border-0 rounded-none shadow-none p-6 w-full max-w-md">
+                            <div className="bg-[rgb(127,77,2)] border border-gray-800 rounded-2xl shadow-lg p-6 w-full max-w-md">
                                 <SignUp
                                     appearance={{
                                         elements: {
-                                            card: "bg-[rgb(127,77,2)] border border-gray-800 rounded-2xl shadow-lg p-0 max-w-none",
+                                            card: "bg-transparent shadow-none border-0 p-0 max-w-none",
                                             headerTitle: "hidden",
                                             headerSubtitle: "hidden",
                                             socialButtons: "gap-3 mb-4",
@@ -45,9 +53,14 @@ export default function SignUpPage() {
                                             formResendCodeLink: "text-yellow-500 hover:text-yellow-400",
                                             footer: "hidden",
                                             footerAction: "hidden",
+                                            footerActionText: "hidden",
+                                            footerActionLink: "hidden",
+                                            footerPageLink: "hidden",
+                                            clerkLogo: "hidden",
+                                            header: "hidden"
                                         },
                                         variables: {
-                                            colorBackground: 'rgb(127, 77, 2)',
+                                            colorBackground: 'transparent',
                                             colorText: '#ffffff',
                                             colorTextSecondary: '#cccccc',
                                             colorPrimary: '#ffc700',
@@ -65,28 +78,31 @@ export default function SignUpPage() {
                                     afterSignUpUrl="/"
                                     redirectUrl="/"
                                 />
-                            </div>
-
-                            {/* Custom Footer Link */}
-                            <div className="mt-6 text-center">
-                                <span className="text-gray-400 text-sm">Already have an account? </span>
-                                <Link href="/sign-in" className="text-yellow-500 hover:text-yellow-400 font-medium text-sm">
-                                    Sign in
-                                </Link>
+                                {/* Custom Footer Link */}
+                                <div className="mt-6 text-center">
+                                    <span className="text-gray-400 text-sm">Already have an account? </span>
+                                    <Link href="/sign-in" className="text-yellow-500 hover:text-yellow-400 font-medium text-sm">
+                                        Sign in
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Right side - Image - Fixed position to cover entire right side */}
-            <div className="hidden lg:block fixed right-0 top-0 w-1/2 h-screen">
-                <Image
-                    src="/auth.png"
-                    alt="Authentication"
-                    fill
-                    className="object-cover"
-                />
+                {/* Middle separator shadow */}
+                <div className="hidden lg:block fixed left-1/2 top-0 w-px h-screen bg-black z-40 shadow-[0_0_15px_5px_rgba(0,0,0,0.8)]"></div>
+
+                {/* Right side - Image - Fixed position to cover entire right side */}
+                <div className="hidden lg:block fixed right-0 top-8 w-1/2 h-screen">
+                    <Image
+                        src="/images/invi1.png"
+                        alt="Authentication"
+                        fill
+                        priority
+                        className="object-cover"
+                    />
+                </div>
             </div>
         </div>
     );

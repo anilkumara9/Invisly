@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { mutation, query, internalMutation } from "./_generated/server";
 
 // Generate a short-lived auth code
 export const generateAuthCode = mutation({
@@ -10,12 +10,24 @@ export const generateAuthCode = mutation({
             throw new Error("Not authenticated");
         }
 
-        // Generate a secure random code
-        // simple implementation: timestamp + random string
+        // Rate limiting: Maximum 3 codes per minute per user
+        const recentCodes = await ctx.db
+            .query("authCodes")
+            .withIndex("by_expires_at", (q) => q.gt("expiresAt", Date.now() + (2 * 60 * 1000) - (60 * 1000)))
+            .filter((q) => q.eq(q.field("userId"), identity.subject))
+            .collect();
+
+        // Filter in memory for precise "last minute" check
+        const oneMinuteFromNow = Date.now() + 60 * 1000;
+        const codesCreatedLastMinute = recentCodes.filter(c => c.expiresAt > oneMinuteFromNow);
+
+        if (codesCreatedLastMinute.length >= 3) {
+            throw new Error("Rate limit exceeded. Please wait a moment.");
+        }
+
         const code = Math.random().toString(36).substring(2, 15) +
             Math.random().toString(36).substring(2, 15);
 
-        // Store in database with 2 minute expiration
         await ctx.db.insert("authCodes", {
             code,
             userId: identity.subject,
@@ -30,44 +42,43 @@ export const generateAuthCode = mutation({
 export const exchangeCodeForToken = mutation({
     args: { code: v.string() },
     handler: async (ctx, args) => {
-        // 1. Find the code
         const authCode = await ctx.db
             .query("authCodes")
             .withIndex("by_code", (q) => q.eq("code", args.code))
             .first();
 
-        // 2. Validate
         if (!authCode) {
             throw new Error("Invalid code");
         }
 
         if (authCode.expiresAt < Date.now()) {
-            // Clean up expired code
             await ctx.db.delete(authCode._id);
             throw new Error("Code expired");
         }
 
-        // 3. Generate session token
-        // Using a simple random string for now, but in production consider more entropy
         const token = Math.random().toString(36).substring(2) +
             Date.now().toString(36) +
             Math.random().toString(36).substring(2);
 
-        // 4. Create session
         await ctx.db.insert("desktopSessions", {
             token,
             userId: authCode.userId,
-            deviceName: "Desktop App", // Could be passed in args if we wanted
+            deviceName: "Desktop App",
             createdAt: Date.now(),
             lastActiveAt: Date.now(),
         });
 
-        // 5. Delete the used code
         await ctx.db.delete(authCode._id);
+
+        const user = await ctx.db
+            .query("users")
+            .withIndex("by_clerk_id", (q) => q.eq("clerkId", authCode.userId))
+            .first();
 
         return {
             token,
             userId: authCode.userId,
+            email: user?.email,
         };
     },
 });
@@ -85,11 +96,34 @@ export const validateDesktopSession = query({
             return null;
         }
 
-        // Optional: Update lastActiveAt (logic would need to be in a mutation or treated differently)
-        // For a query, we just return the user info
+        const user = await ctx.db
+            .query("users")
+            .withIndex("by_clerk_id", (q) => q.eq("clerkId", session.userId))
+            .first();
 
         return {
             userId: session.userId,
+            email: user?.email,
         };
+    },
+});
+
+// Internal mutation to clean up expired codes
+export const cleanupExpiredCodes = internalMutation({
+    args: {},
+    handler: async (ctx) => {
+        const now = Date.now();
+        const expiredCodes = await ctx.db
+            .query("authCodes")
+            .withIndex("by_expires_at", (q) => q.lt("expiresAt", now))
+            .take(100);
+
+        for (const code of expiredCodes) {
+            await ctx.db.delete(code._id);
+        }
+
+        if (expiredCodes.length > 0) {
+            console.log(`Cleaned up ${expiredCodes.length} expired auth codes.`);
+        }
     },
 });

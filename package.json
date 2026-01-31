@@ -88,6 +88,7 @@
     "react-native": "latest",
     "react-resizable-panels": "^2.1.7",
     "recharts": "2.15.4",
+    "resend": "^6.9.1",
     "rough-notation": "^0.5.1",
     "sonner": "^1.7.4",
     "stripe": "^19.1.0",

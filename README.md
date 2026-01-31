@@ -51,7 +51,7 @@ NEXT_PUBLIC_STRIPE_PRICE_ID=your_stripe_price_id
 NEXT_PUBLIC_CONVEX_URL=your_convex_domain_url
 
 # App URL
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_APP_URL=https://invisly.in
 ```
 
 Refer to `.env.example` for a complete template.

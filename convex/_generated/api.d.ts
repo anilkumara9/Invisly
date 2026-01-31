@@ -8,11 +8,18 @@
  * @module
  */
 
-import type * as authconfig from "../authconfig.js";
+import type * as clerkWebhook from "../clerkWebhook.js";
+import type * as crons from "../crons.js";
+import type * as desktopAuth from "../desktopAuth.js";
+import type * as emails from "../emails.js";
 import type * as http from "../http.js";
+import type * as lib_stripe from "../lib/stripe.js";
 import type * as payments from "../payments.js";
 import type * as stripe from "../stripe.js";
+import type * as stripeActions from "../stripeActions.js";
+import type * as stripeInternalActions from "../stripeInternalActions.js";
 import type * as stripeWebhook from "../stripeWebhook.js";
+import type * as test_emails from "../test_emails.js";
 import type * as users from "../users.js";
 
 import type {
@@ -22,11 +29,18 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
-  authconfig: typeof authconfig;
+  clerkWebhook: typeof clerkWebhook;
+  crons: typeof crons;
+  desktopAuth: typeof desktopAuth;
+  emails: typeof emails;
   http: typeof http;
+  "lib/stripe": typeof lib_stripe;
   payments: typeof payments;
   stripe: typeof stripe;
+  stripeActions: typeof stripeActions;
+  stripeInternalActions: typeof stripeInternalActions;
   stripeWebhook: typeof stripeWebhook;
+  test_emails: typeof test_emails;
   users: typeof users;
 }>;
 

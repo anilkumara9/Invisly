@@ -5,14 +5,14 @@ These URLs are used for redirecting users during authentication flows and paymen
 ## Payment Processing URLs
 
 ```
-SUCCESS_URL=https://your-website.com/success
-CANCEL_URL=https://your-website.com/cancel
+SUCCESS_URL=https://invisly.in/success
+CANCEL_URL=https://invisly.in/cancel
 ```
 
 ## Authentication URLs
 
 ```
-APP_REDIRECT_URI=https://your-website.com/auth/callback
+APP_REDIRECT_URI=https://invisly.in/auth/callback
 CLERK_FRONTEND_API_URL=https://your-project-xxxxx.clerk.accounts.dev
 ```
 

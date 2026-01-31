@@ -22,30 +22,6 @@ export const Header = () => {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  // Add scroll direction detection
-  const [scrollDirection, setScrollDirection] = useState<'up' | 'down' | null>(null);
-  const lastScrollY = useRef(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      // Only hide header when scrolling down and past 100px
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        setScrollDirection('down');
-      }
-      // Show header when scrolling up or at the top of the page
-      else if (currentScrollY < lastScrollY.current || currentScrollY <= 100) {
-        setScrollDirection('up');
-      }
-
-      lastScrollY.current = currentScrollY;
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   // Handle click outside to close dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -63,11 +39,9 @@ export const Header = () => {
       <div className="container mx-auto px-4">
         <div
           className={cn(
-            "transition-all duration-500 ease-out max-w-7xl mx-auto mt-4",
+            "transition-all duration-300 ease-out max-w-7xl mx-auto mt-4",
             scrolled &&
-            "rounded-2xl border border-white/5 bg-black/60 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] py-2",
-            scrollDirection === 'down' && "transform transition-transform duration-300 -translate-y-full opacity-0",
-            scrollDirection === 'up' && "transform transition-transform duration-300 translate-y-0 opacity-100"
+            "rounded-2xl border border-white/5 bg-black/60 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] py-2"
           )}
         >
           <header className="relative flex items-center justify-between px-2 md:px-4">
@@ -137,15 +111,21 @@ export const Header = () => {
                   <ChevronDown className={`ml-1 w-4 h-4 transition-transform duration-300 ${dropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
                 <div className={`absolute left-1/2 transform -translate-x-1/2 mt-2 w-56 rounded-xl border border-white/10 bg-neutral-800/90 backdrop-blur-xl shadow-lg transition-all duration-300 z-50 ${dropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
-                  <Link href="#" className="flex items-center px-5 py-3 text-sm text-white/90 hover:text-black hover:bg-yellow-500 transition-colors rounded-t-xl">
-                    <img src="/icons/image1.png" alt="macOS" className="w-5 h-5 mr-2 filter grayscale" />
-                    Get for Mac (Silicon)
-                  </Link>
-                  <Link href="#" className="flex items-center px-5 py-3 text-sm text-white/90 hover:text-black hover:bg-yellow-500 transition-colors">
-                    <img src="/icons/image1.png" alt="macOS" className="w-5 h-5 mr-2 filter grayscale" />
-                    Get for Mac (Intel)
-                  </Link>
-                  <Link href="#" className="flex items-center px-5 py-3 text-sm text-white/90 hover:text-black hover:bg-yellow-500 transition-colors rounded-b-xl">
+                  <div className="flex items-center justify-between px-5 py-3 text-sm text-white/40 cursor-not-allowed rounded-t-xl">
+                    <div className="flex items-center">
+                      <img src="/icons/image1.png" alt="macOS" className="w-5 h-5 mr-2 filter grayscale opacity-40" />
+                      Get for Mac (Silicon)
+                    </div>
+                    <span className="text-xs bg-yellow-500/20 text-yellow-500 px-2 py-0.5 rounded-full border border-yellow-500/30">Soon</span>
+                  </div>
+                  <div className="flex items-center justify-between px-5 py-3 text-sm text-white/40 cursor-not-allowed">
+                    <div className="flex items-center">
+                      <img src="/icons/image1.png" alt="macOS" className="w-5 h-5 mr-2 filter grayscale opacity-40" />
+                      Get for Mac (Intel)
+                    </div>
+                    <span className="text-xs bg-yellow-500/20 text-yellow-500 px-2 py-0.5 rounded-full border border-yellow-500/30">Soon</span>
+                  </div>
+                  <Link href="https://github.com/anilkumara9/GetBroCode/releases/latest/download/Invisly.Setup.1.0.0.exe" className="flex items-center px-5 py-3 text-sm text-white/90 hover:text-black hover:bg-yellow-500 transition-colors rounded-b-xl">
                     <img src="/icons/windows.png" alt="Windows" className="w-5 h-5 mr-2 filter grayscale" />
                     Get for Windows
                   </Link>
@@ -205,27 +185,23 @@ export const Header = () => {
                         {/* Mobile Download Options */}
                         <div className="flex flex-col gap-4 pt-6 pb-2">
                           <h3 className="text-lg font-mono text-yellow-500 uppercase tracking-wider font-bold">Download Options</h3>
-                          <SheetClose asChild>
-                            <Link
-                              href="#"
-                              className="flex items-center text-base font-mono text-white/90 hover:text-yellow-500 transition-colors py-3 border-b border-white/10"
-                            >
-                              <img src="/icons/image1.png" alt="macOS" className="w-4 h-4 mr-2 filter grayscale" />
+                          <div className="flex items-center justify-between text-base font-mono text-white/40 py-3 border-b border-white/10 cursor-not-allowed">
+                            <div className="flex items-center">
+                              <img src="/icons/image1.png" alt="macOS" className="w-4 h-4 mr-2 filter grayscale opacity-40" />
                               Get for Mac (Silicon)
-                            </Link>
-                          </SheetClose>
-                          <SheetClose asChild>
-                            <Link
-                              href="#"
-                              className="flex items-center text-base font-mono text-white/90 hover:text-yellow-500 transition-colors py-3 border-b border-white/10"
-                            >
-                              <img src="/icons/image1.png" alt="macOS" className="w-4 h-4 mr-2 filter grayscale" />
+                            </div>
+                            <span className="text-xs bg-yellow-500/20 text-yellow-500 px-2 py-0.5 rounded-full border border-yellow-500/30">Soon</span>
+                          </div>
+                          <div className="flex items-center justify-between text-base font-mono text-white/40 py-3 border-b border-white/10 cursor-not-allowed">
+                            <div className="flex items-center">
+                              <img src="/icons/image1.png" alt="macOS" className="w-4 h-4 mr-2 filter grayscale opacity-40" />
                               Get for Mac (Intel)
-                            </Link>
-                          </SheetClose>
+                            </div>
+                            <span className="text-xs bg-yellow-500/20 text-yellow-500 px-2 py-0.5 rounded-full border border-yellow-500/30">Soon</span>
+                          </div>
                           <SheetClose asChild>
                             <Link
-                              href="#"
+                              href="https://github.com/anilkumara9/GetBroCode/releases/latest/download/Invisly.Setup.1.0.0.exe"
                               className="flex items-center text-base font-mono text-white/90 hover:text-yellow-500 transition-colors py-3"
                             >
                               <img src="/icons/windows.png" alt="Windows" className="w-4 h-4 mr-2 filter grayscale" />

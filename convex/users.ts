@@ -2,6 +2,47 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
+export const storeUser = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Called storeUser without authentication");
+    }
+
+    // Check if we already have this user
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .unique();
+
+    const userData = {
+      clerkId: identity.subject,
+      email: identity.email!,
+      name: identity.name,
+      imageUrl: identity.pictureUrl,
+      updatedAt: Date.now(),
+    };
+
+    if (user !== null) {
+      // If we've seen this user before but their name or picture has changed, update them.
+      if (user.name !== identity.name || user.imageUrl !== identity.pictureUrl || user.email !== identity.email) {
+        await ctx.db.patch(user._id, userData);
+      }
+      return user._id;
+    }
+
+    // If it's a new user, create it.
+    console.log(`Creating new user for clerkId: ${identity.subject}`);
+    const userId = await ctx.db.insert("users", {
+      ...userData,
+      createdAt: Date.now(),
+    });
+
+    return userId;
+  },
+});
+
 export const createUser = mutation({
   args: {
     clerkId: v.string(),

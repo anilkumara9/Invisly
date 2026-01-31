@@ -8,7 +8,9 @@ export default function SSOCallback() {
 
   useEffect(() => {
     // Redirect to the sign-in page which will handle the SSO callback
-    router.push("/sign-in");
+    // Preserve query parameters
+    const search = window.location.search;
+    router.push(`/sign-in${search}`);
   }, [router]);
 
   return (

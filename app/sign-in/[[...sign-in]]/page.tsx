@@ -11,7 +11,21 @@ import { api } from "@/convex/_generated/api";
 export default function SignInPage() {
     const { user, isLoaded } = useUser();
     const searchParams = useSearchParams();
-    const isDesktop = searchParams?.get('source') === 'desktop';
+
+    const [isDesktop, setIsDesktop] = useState(false);
+
+    useEffect(() => {
+        const source = searchParams?.get('source');
+        if (source === 'desktop') {
+            sessionStorage.setItem('authSource', 'desktop');
+            setIsDesktop(true);
+        } else {
+            const storedSource = sessionStorage.getItem('authSource');
+            if (storedSource === 'desktop') {
+                setIsDesktop(true);
+            }
+        }
+    }, [searchParams]);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const generateCode = useMutation((api as any).desktopAuth.generateAuthCode);
 
@@ -39,6 +53,10 @@ export default function SignInPage() {
             handleDesktopAuth();
         }
     }, [isLoaded, user, isDesktop, generateCode, status]);
+
+    if (!isLoaded) {
+        return null; // Or a loading spinner
+    }
 
     return (
         <div className="min-h-screen" style={{ background: 'linear-gradient(to right, rgb(8, 8, 7) 50%, black 50%)' }}>
@@ -85,11 +103,11 @@ export default function SignInPage() {
                                     </button>
                                 </div>
                             ) : (
-                                <div className="bg-transparent border-0 rounded-none shadow-none p-6 w-full max-w-md">
+                                <div className="bg-[rgb(127,77,2)] border border-gray-800 rounded-2xl shadow-lg p-6 w-full max-w-md">
                                     <SignIn
                                         appearance={{
                                             elements: {
-                                                card: "bg-[rgb(127,77,2)] border border-gray-800 rounded-2xl shadow-lg p-0 max-w-none",
+                                                card: "bg-transparent shadow-none border-0 p-0 max-w-none",
                                                 headerTitle: "hidden",
                                                 headerSubtitle: "hidden",
                                                 socialButtons: "gap-3 mb-4",
@@ -106,9 +124,14 @@ export default function SignInPage() {
                                                 formResendCodeLink: "text-yellow-500 hover:text-yellow-400",
                                                 footer: "hidden",
                                                 footerAction: "hidden",
+                                                footerActionText: "hidden",
+                                                footerActionLink: "hidden",
+                                                footerPageLink: "hidden",
+                                                clerkLogo: "hidden",
+                                                header: "hidden"
                                             },
                                             variables: {
-                                                colorBackground: 'rgb(127, 77, 2)',
+                                                colorBackground: 'transparent',
                                                 colorText: '#ffffff',
                                                 colorTextSecondary: '#cccccc',
                                                 colorPrimary: '#ffc700',
@@ -125,32 +148,33 @@ export default function SignInPage() {
                                         afterSignInUrl={isDesktop ? "/sign-in?source=desktop" : "/"} // Ensure we stay/return to capture the desktop source if redirected locally, though Clerk usually handles this
                                         redirectUrl={isDesktop ? "/sign-in?source=desktop" : "/"}
                                     />
+                                    {/* Custom Footer Link */}
+                                    <div className="mt-6 text-center">
+                                        <span className="text-gray-400 text-sm">Don&apos;t have an account? </span>
+                                        <Link href="/sign-up" className="text-yellow-500 hover:text-yellow-400 font-medium text-sm">
+                                            Sign up
+                                        </Link>
+                                    </div>
                                 </div>
                             )}
-
-                            {/* Custom Footer Link */}
-                            <div className="mt-6 text-center">
-                                <span className="text-gray-400 text-sm">Don&apos;t have an account? </span>
-                                <Link href="/sign-up" className="text-yellow-500 hover:text-yellow-400 font-medium text-sm">
-                                    Sign up
-                                </Link>
-                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Middle separator shadow */}
-            <div className="hidden lg:block fixed left-1/2 top-0 w-px h-screen bg-black z-40 shadow-[0_0_15px_5px_rgba(0,0,0,0.8)]"></div>
+                {/* Middle separator shadow */}
+                <div className="hidden lg:block fixed left-1/2 top-0 w-px h-screen bg-black z-40 shadow-[0_0_15px_5px_rgba(0,0,0,0.8)]"></div>
 
-            {/* Right side - Image - Fixed position to cover entire right side */}
-            <div className="hidden lg:block fixed right-0 top-8 w-1/2 h-screen">
-                <Image
-                    src="/images/invi1.png"
-                    alt="Authentication"
-                    fill
-                    className="object-cover"
-                />
+                {/* Right side - Image - Fixed position to cover entire right side */}
+                <div className="hidden lg:block fixed right-0 top-8 w-1/2 h-screen">
+                    <Image
+                        src="/images/invi1.png"
+                        alt="Authentication"
+                        fill
+                        sizes="50vw"
+                        priority
+                        className="object-cover"
+                    />
+                </div>
             </div>
         </div>
     );
