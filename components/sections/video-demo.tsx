@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, MouseEvent, TouchEvent, useCallback } from "react";
 import { Star } from "lucide-react";
 import { PerspectiveGrid } from "@/components/ui/perspective-grid";
+import Image from "next/image";
 
 export function VideoDemo() {
     const [sliderPosition, setSliderPosition] = useState(50);
@@ -59,13 +60,18 @@ export function VideoDemo() {
 
     return (
         <section className="relative py-8 overflow-hidden px-4 sm:px-6 lg:px-8">
-            {/* Replaced the video background with PerspectiveGrid */}
+            {/* Background with night.png image */}
             <div className="absolute inset-0 -z-10">
-                <PerspectiveGrid
-                    gridColor="rgba(234, 179, 8, 0.2)"
-                    className="opacity-50"
+                {/* Night background image */}
+                <Image
+                    src="/night.png"
+                    alt="Night background"
+                    fill
+                    className="object-cover"
+                    priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/20 to-black"></div>
+                {/* Gradient overlay with top shadow */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black"></div>
             </div>
             <div className="max-w-6xl mx-auto relative z-10">
                 <div className="text-center mb-8 animate-fade-in-up">
@@ -80,7 +86,7 @@ export function VideoDemo() {
                         </span>
                     </h2>
                     <p className="text-base sm:text-lg text-[#B4B4B4] max-w-3xl mx-auto leading-relaxed mb-6">
-                        See how Bro Code helps developers stay productive while keeping their workflow hidden during online assessments.
+                        See how Invisly helps developers stay productive while keeping their workflow hidden during online assessments.
                     </p>
                 </div>
 

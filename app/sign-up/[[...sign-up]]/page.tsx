@@ -90,13 +90,10 @@ export default function SignUpPage() {
                     </div>
                 </div>
 
-                {/* Middle separator shadow */}
-                <div className="hidden lg:block fixed left-1/2 top-0 w-px h-screen bg-black z-40 shadow-[0_0_15px_5px_rgba(0,0,0,0.8)]"></div>
-
                 {/* Right side - Image - Fixed position to cover entire right side */}
-                <div className="hidden lg:block fixed right-0 top-8 w-1/2 h-screen">
+                <div className="hidden lg:block fixed right-0 top-0 w-1/2 h-screen">
                     <Image
-                        src="/images/invi1.png"
+                        src="/login.png"
                         alt="Authentication"
                         fill
                         priority
