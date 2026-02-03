@@ -150,7 +150,7 @@ export function Footer() {
                         </svg>
                     </Link>
                     <Link
-                        href="#"
+                        href="https://x.com/anilKumar09873"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="X/Twitter"
