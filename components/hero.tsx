@@ -40,24 +40,27 @@ export function Hero() {
     // Removed pt-16 since header is now part of the curved container
     <div className="relative flex flex-col h-svh justify-center items-center">
       
-      {/* Background image */}
-      <div className="absolute inset-0 z-5">
-        <img 
-          src="/images/invi2.png" 
-          alt="Invisly" 
-          className="h-full w-full object-cover"
-        />
-      </div>
-      
-      {/* Reduced overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/0"></div>
+      {/* Top shadow gradient for better header contrast - reduced intensity */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/60 to-transparent z-10 pointer-events-none"></div>
+
+      {/* Reduced overlay for better text readability - even more subtle */}
+      <div className="absolute inset-0 bg-black/10 z-5"></div>
       
       {/* GL component - positioned above background but below content */}
       <GL hovering={hovering && !isScrolling} />
 
+      {/* Background image - moved here to ensure it's on top of GL if necessary, but behind content */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="/images/invi2.png?v=1711463118" 
+          alt="Invisly" 
+          className="h-full w-full object-cover"
+        />
+      </div>
+
       {/* Content - positioned at the top z-index */}
       <motion.div
-        className="relative z-10 text-center flex flex-col items-center justify-center"
+        className="relative z-20 text-center flex flex-col items-center justify-center"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }}
@@ -99,8 +102,9 @@ export function Hero() {
           interviews.
         </motion.p>
       </motion.div>
-      {/* Black shadow at the bottom to cover border
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black via-black/80 to-transparent z-20"></div> */}
+      
+      {/* Black shadow at the bottom to cover border - further reduced height */}
+      <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black via-black/80 to-transparent z-10 pointer-events-none"></div>
     </div>
   )
 }
