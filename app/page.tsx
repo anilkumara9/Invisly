@@ -145,7 +145,7 @@ export default function Home() {
                         <Pricing />
                     </motion.section>
 
-                    {<motion.section
+                    {/* {<motion.section
                         id="insights"
                         className="scroll-mt-28"
                         initial={{ opacity: 0, y: 30 }}
@@ -154,7 +154,7 @@ export default function Home() {
                         transition={{ duration: 0.6, delay: 1.0 }}
                     >
                         <InsightsBanner />
-                    </motion.section>}
+                    </motion.section>} */}
 
                     <motion.section
                         id="faq"
