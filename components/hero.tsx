@@ -40,23 +40,25 @@ export function Hero() {
     // Removed pt-16 since header is now part of the curved container
     <div className="relative flex flex-col h-svh justify-center items-center">
       
-      {/* Top shadow gradient for better header contrast - reduced intensity */}
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/60 to-transparent z-10 pointer-events-none"></div>
-
-      {/* Reduced overlay for better text readability - even more subtle */}
-      <div className="absolute inset-0 bg-black/10 z-5"></div>
+      {/* Top shadow gradient - very subtle */}
+      <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black/20 to-transparent z-10 pointer-events-none"></div>
       
       {/* GL component - positioned above background but below content */}
       <GL hovering={hovering && !isScrolling} />
 
-      {/* Background image - moved here to ensure it's on top of GL if necessary, but behind content */}
-      <div className="absolute inset-0 z-0">
-        <img 
-          src="/images/invi2.png?v=1711463118" 
-          alt="Invisly" 
-          className="h-full w-full object-cover"
+      {/* Background video - moved here to ensure it's on top of GL if necessary, but behind content */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+      >
+        <source
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4"
+          type="video/mp4"
         />
-      </div>
+      </video>
 
       {/* Content - positioned at the top z-index */}
       <motion.div
@@ -103,8 +105,8 @@ export function Hero() {
         </motion.p>
       </motion.div>
       
-      {/* Black shadow at the bottom to cover border - further reduced height */}
-      <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black via-black/80 to-transparent z-10 pointer-events-none"></div>
+      {/* Bottom shadow - very subtle */}
+      <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black/40 to-transparent z-10 pointer-events-none"></div>
     </div>
   )
 }
