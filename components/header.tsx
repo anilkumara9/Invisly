@@ -57,7 +57,7 @@ export const Header = () => {
             </div>
             <nav className="flex max-lg:hidden absolute left-1/2 -translate-x-1/2 items-center justify-center gap-x-10">
               {[
-                { label: "Documentation", href: "/documentation" },
+                { label: "Documentation", href: "https://invisly.mintlify.app/introduction", external: true },
                 { label: "Features", href: "#features" },
                 { label: "Pricing", href: "#pricing" },
               ].map((item) => (
@@ -70,6 +70,7 @@ export const Header = () => {
                   )}
                   href={item.href}
                   key={item.label}
+                  {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 >
                   <span className="relative">
                     {item.label}
@@ -161,7 +162,7 @@ export const Header = () => {
                     <div className="flex flex-col gap-8 mt-10">
                       <div className="flex flex-col gap-6">
                         {[
-                          { label: "Documentation", href: "/documentation" },
+                          { label: "Documentation", href: "https://invisly.mintlify.app/introduction", external: true },
                           { label: "Features", href: "#features" },
                           { label: "Pricing", href: "#pricing" },
                         ].map((item) => (
@@ -169,6 +170,7 @@ export const Header = () => {
                             <Link
                               href={item.href}
                               className="text-xl font-mono text-white/80 hover:text-primary transition-colors uppercase tracking-wider"
+                              {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                             >
                               {item.label}
                             </Link>
